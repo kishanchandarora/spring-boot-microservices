@@ -1,4 +1,5 @@
 - Microservices
+    ![micro services](./images/Screenshot%20(89).png)
 
 - Prerequisite for microservice tutorial
     - Spring Boot
@@ -6,6 +7,8 @@
         - Smart contact manager
         - Exam portal
         - Blog application
+    - ![prerequisite](./images/Screenshot%20(90).png)
+
 
 - Before microservices
     - Monolithic architecture: multiple components are combined in single large app. Ex: Joint family lives in single house
@@ -18,7 +21,7 @@
     - Problem in scale
         - Single project can't handle multiple requests
     - Cumbersome over time
-    - { image import here }
+    - ![before microservices](./images/Screenshot%20(91).png)
 
 - In microservices
     - Large apps are divide into small parts
@@ -30,21 +33,135 @@
     - Disadvantage
         - Handling microservices in complex
         - If you userbase is small so no need to go for microservices
-    - { image import here }
+    - ![in microservices](./images/Screenshot%20(92).png)
 
 - Microservices architecture
-    - { image import here }
+    - ![microservices architecture](./images/Screenshot%20(94).png)
     - One microservice is equal to one spring boot project
 
 - Service Registry
+    - It is previous used by netflix and spring boot embed this as a dependency
     - All service(instances) are registered here
     - Track all the information of services means which service is down or up
     - We can call the services by its name, even if services ip's are changed
     - This also handled Load Balancing
-    - { image import here }
+    - For server we need
+        - cloud bootstrap
+        ```xml
+            <properties>
+		        <spring-cloud.version>2021.0.7</spring-cloud.version>
+	        </properties>
+
+        	<dependency>
+			    <groupId>org.springframework.cloud</groupId>
+			    <artifactId>spring-cloud-starter</artifactId>
+		    </dependency>
+
+            <!-- It is important -->
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-dependencies</artifactId>
+                        <version>${spring-cloud.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+	        </dependencyManagement>
+        ```
+        
+        - Eureka server: for eureka server we need above cloud bootstrap dependency also
+        ```xml
+        	<dependency>
+			    <groupId>org.springframework.cloud</groupId>
+			    <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+		    </dependency>
+        ```
+        - code of eureka server 
+        ```java
+            @SpringBootApplication
+            @EnableEurekaServer
+            public class ServiceRegistryApplication {
+
+                public static void main(String[] args) {
+                    SpringApplication.run(ServiceRegistryApplication.class, args);
+                }
+
+            }
+        ```
+         ```yml
+            server:
+                port: 8761 # default port for eureka server
+
+            eureka:
+                instance:
+                    hostname: localhost
+
+                client: # default values are true
+                    fetch-registry: false
+                    register-with-eureka: false
+        ```
+
+        - Eureka client:  for eureka server we don't need cloud bootstrap dependency
+        ```xml
+             <!-- It is important -->
+             <properties>
+		        <spring-cloud.version>2021.0.7</spring-cloud.version>
+	        </properties>
+
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.cloud</groupId>
+                        <artifactId>spring-cloud-dependencies</artifactId>
+                        <version>${spring-cloud.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+	        </dependencyManagement>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            </dependency>
+        ```
+        - code of eureka client 
+        ```java
+            @SpringBootApplication
+            @EnableEurekaClient
+            public class UserServiceApplication {
+
+                public static void main(String[] args) {
+                    SpringApplication.run(UserServiceApplication.class, args);
+                }
+
+            }
+        ```
+        ```yml
+            server:
+                port: 8081
+            
+            spring:
+                application:
+                    name: USER-SERVICE
+
+            eureka:
+                instance:
+                    prefer-ip-address: true
+
+                client: # default values are true
+                    fetch-registry: true
+                    register-with-eureka: true
+                    service-url:
+                        defaultZone: http://localhost:8761/eureka
+        ```
+    - ![service registry](./images/Screenshot%20(97).png)
+    - ![service communication](./images/Screenshot%20(98).png)
 
 - Lets start building microservices
-    - { image import here }
+    - ![building microservices](./images/Screenshot%20(99).png)
 
 * Snapshot versions of spring boot are under developed, so we don't use it
 

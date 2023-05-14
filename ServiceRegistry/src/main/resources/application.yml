@@ -1,0 +1,10 @@
+server:
+  port: 8761 # default port for eureka server
+
+eureka:
+  instance:
+    hostname: localhost
+
+  client: # default values are true
+    fetch-registry: false
+    register-with-eureka: false
