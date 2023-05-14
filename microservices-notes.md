@@ -159,6 +159,18 @@
         ```
     - ![service registry](./images/Screenshot%20(97).png)
     - ![service communication](./images/Screenshot%20(98).png)
+    - Calling microservice using code
+    ```java
+        @Configuration
+        public class MyConfig {
+
+            @Bean
+            @LoadBalanced // call using service name we need this
+            public RestTemplate getRestTemplate() {
+                return new RestTemplate();
+            }
+        }
+    ```
 
 - Lets start building microservices
     - ![building microservices](./images/Screenshot%20(99).png)
