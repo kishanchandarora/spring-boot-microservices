@@ -177,7 +177,7 @@
 - Feign client
     - The Feign is a declarative Http web client developed by Netflix
     - If you want to use Feign, create an interface, and annotate it.
-    - { import image here }
+    - ![feign client](./images/Screenshot%20(99).png)
     - dependency: open feign
     ```xml
         <!-- It is important -->
@@ -223,7 +223,8 @@
     ```
 
 - Api Gateway
-    - { image import here }
+    - Instead of calling 50 microservices url by the client, client only use to call single url of gateway, and its a gateway responsibility to call internal microservices url
+    - ![api gateway](./images/Screenshot%20(100).png)
     - Dependency
     ```xml
     	<properties>
