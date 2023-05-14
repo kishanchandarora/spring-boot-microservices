@@ -172,10 +172,52 @@
         }
     ```
 
-- Lets start building microservices
-    - ![building microservices](./images/Screenshot%20(99).png)
-
 * Snapshot versions of spring boot are under developed, so we don't use it
 
-    
-    
+- Feign client
+    - The Feign is a declarative Http web client developed by Netflix
+    - If you want to use Feign, create an interface, and annotate it.
+    - { import image here }
+    - dependency: open feign
+    ```xml
+        <!-- It is important -->
+        <properties>
+            <spring-cloud.version>2021.0.7</spring-cloud.version>
+        </properties>
+
+        <dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-dependencies</artifactId>
+                    <version>${spring-cloud.version}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
+            </dependencies>
+        </dependencyManagement>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+    ```
+    - Code for fiegn client
+    ```java
+        @SpringBootApplication
+        @EnableEurekaClient
+        @EnableFeignClients
+        public class UserServiceApplication {
+
+            public static void main(String[] args) {
+                SpringApplication.run(UserServiceApplication.class, args);
+            }
+        }
+
+        @FeignClient(name = "HOTEL-SERVICE")
+        public interface HotelService {
+
+            @GetMapping("/hotels/{hotelId}")
+            Hotel getHotel(@PathVariable String hotelId);
+        }
+    ```
