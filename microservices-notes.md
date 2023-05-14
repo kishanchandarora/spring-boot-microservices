@@ -221,3 +221,34 @@
             Hotel getHotel(@PathVariable String hotelId);
         }
     ```
+
+- Api Gateway
+    - { image import here }
+    - Dependency
+    ```xml
+    	<properties>
+		    <spring-cloud.version>2021.0.7</spring-cloud.version>
+	    </properties>
+
+        <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
+		</dependency>
+
+        <dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-dependencies</artifactId>
+                    <version>${spring-cloud.version}</version>
+                    <type>pom</type>
+                    <scope>import</scope>
+                </dependency>
+            </dependencies>
+	    </dependencyManagement>
+    ```
+    - code for Api Gateway
